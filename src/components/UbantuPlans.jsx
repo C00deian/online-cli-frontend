@@ -46,7 +46,7 @@ export default function UbuntuPlans() {
     setError("");
     setResult(null);
     try {
-      const res = await axios.post("http://localhost:3000/instances/create", {
+      const res = await axios.post("http://13.204.81.232:3000/instances/create", {
         ami_id: plan.ami_id,
         instance_type: plan.instance_type,
         volume_size: plan.volume_size,

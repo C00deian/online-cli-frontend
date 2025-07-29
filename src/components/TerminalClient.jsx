@@ -61,6 +61,7 @@ const TerminalClient = () => {
     term.current.writeln('Connected to EC2 via SSM.');
     prompt();
 
+
     let currentCommand = '';
 
     term.current.onData(data => {
@@ -114,7 +115,7 @@ const TerminalClient = () => {
 
       isRunning.current = true;
       try {
-        const { data } = await axios.post('http://localhost:3000/instances/connect', {
+        const { data } = await axios.post('http://13.204.81.232:3000/instances/connect', {
           instanceId,
           command: cmd,
         });
@@ -122,7 +123,7 @@ const TerminalClient = () => {
         const lines = data.output ? data.output.split('\n') : [`bash: ${cmd}: command not found`];
         for (const line of lines) {
           term.current.writeln(line);
-          await new Promise(res => setTimeout(res, 20));
+          await new Promise(res => setTimeout(res, 30000));
         }
       } catch (err) {
         term.current.writeln(`Error: ${err.message}`);
@@ -142,7 +143,7 @@ const TerminalClient = () => {
   const handleTerminate = async () => {
   setTerminating(true);
   try {
-    await axios.post(`http://localhost:3000/instances/${instanceId}/terminate`);
+    await axios.post(`http://13.204.81.232:3000/instances/${instanceId}/terminate`);
     setTerminated(true);
     term.current.writeln('\r\n⚠️ Instance terminated successfully.');
     setTimeout(() => navigate('/'), 3000); // Redirect after 3s
