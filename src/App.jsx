@@ -1,18 +1,16 @@
+import {  Routes, Route } from "react-router-dom";
 
-
-import './App.css'
-import TerminalClient from './components/TerminalClient'
-
+import TerminalClient from "./components/TerminalClient"; // ✅ Make sure path is correct
+import Home from "./components/Home";
 function App() {
-
-
   return (
-    <>
-         <TerminalClient />
   
-    </>
- 
-  )
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/terminal" element={<TerminalClient />} />
+      </Routes>
+  
+  );
 }
 
-export default App
+export default App;
