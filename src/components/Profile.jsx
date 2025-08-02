@@ -40,7 +40,7 @@ const Profile = () => {
             {dropdownOpen && (
                 <div
                     ref={dropdownRef}
-                    className="z-50 absolute top-16 right-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm "
+                    className="z-50 absolute top-13 right-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm  w-44"
                 >
                     <div className="px-4 py-3">
                         <span className="block text-sm text-gray-900 ">
@@ -72,7 +72,7 @@ const Profile = () => {
                                 href="#"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  "
                             >
-                                Biling
+                                Billing
                             </a>
                         </li>
                         <li>

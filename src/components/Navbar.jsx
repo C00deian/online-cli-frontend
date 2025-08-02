@@ -28,13 +28,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className="px-5 py-2 text-sm font-semibold text-white bg-gray-800 rounded-full hover:bg-gray-700 transition duration-200"
+                  className="px-5 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 transition duration-200"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-5 py-2 text-sm font-semibold text-white bg-black rounded-full hover:bg-gray-700 transition duration-200"
+                  className="px-5 py-2 text-sm font-semibold text-white bg-black rounded hover:bg-gray-700 transition duration-200"
                 >
                   Sign Up
                 </Link>
