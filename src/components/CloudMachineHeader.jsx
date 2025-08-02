@@ -1,5 +1,3 @@
-import React from "react";
-
 const CloudMachineHeader = ({ title , subtitle ,btntitile }) => {
   return (
     <div className="flex flex-col  px-32 py-4  text-black rounded-md z-10 space-y-2">

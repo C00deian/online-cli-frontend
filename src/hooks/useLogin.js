@@ -1,7 +1,6 @@
-// useLogin.js
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../Service/axiosInstance";
+import axiosInstance from "../services/axiosInstance";
 import { toast } from "react-toastify";
 
 export const useLogin = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import user from "../assets/Profile.webp"
 import { useAuth } from "../context/AuthContext"; // ⬅️ import useAuth
 

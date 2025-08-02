@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import InstanceCard from "../components/InstanceCard";
-import axiosInstance from "../Service/AxiosInstance";
+import axiosInstance from "../services/axiosInstance";
 
 const windowsPlans = [
   {

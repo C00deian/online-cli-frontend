@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, UserCircle } from 'lucide-react';  
+import { Menu, X, } from 'lucide-react';
 import Profile from './Profile';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-4 items-center">
             {user ? (
-            <Profile/>
+              <Profile />
             ) : (
               <>
                 <Link
@@ -55,7 +55,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white px-6 pb-4">
           {user ? (
-             <Profile/>
+            <Profile />
           ) : (
             <>
               <Link

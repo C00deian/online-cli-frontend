@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ConnectionButton = ({ instance }) => {
   const handleOpenConnection = () => {
     if (instance?.connectionUrl) {
