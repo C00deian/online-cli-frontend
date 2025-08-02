@@ -12,19 +12,25 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (data) => {
-    try {
-      const response = await axiosInstance.post('/auth/login', data);
-      toast.success( response.data.msg || 'Login successful.');
-      navigate("/")
-    } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.msg); 
-      } else {
-        toast.error('Something went wrong!');
-      }
+const onSubmit = async (data) => {
+  try {
+    const response = await axiosInstance.post('/auth/login', data);
+    console.log(response.data);
+
+    // Save user id to localStorage
+    localStorage.setItem('userId', response.data.user.id);
+
+    toast.success(response.data.msg || 'Login successful.');
+    navigate("/");
+  } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data.msg); 
+    } else {
+      toast.error('Something went wrong!');
     }
-  };
+  }
+};
+
   return (
     <div className=" p-12 mt-7  flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md">

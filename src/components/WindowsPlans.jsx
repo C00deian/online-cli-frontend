@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import InstanceCard from "../components/InstanceCard";
 import axiosInstance from "../Service/AxiosInstance";
+
 const windowsPlans = [
   {
     id: 1,
@@ -34,38 +35,52 @@ const windowsPlans = [
     ami_id: "ami-0f5ee92e2d63afc18",
   },
 ];
+
 export default function WindowsPlans() {
   const [loadingId, setLoadingId] = useState(null);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
-  const { handleSubmit } = useForm(); 
+  const { handleSubmit } = useForm();
+
+  const userId = localStorage.getItem("userId");
+
   const handleCreate = async (plan) => {
     setLoadingId(plan.id);
     setError("");
     setResult(null);
+
     try {
       const response = await axiosInstance.post("/instance/create", {
         ami_id: plan.ami_id,
         instanceType: plan.instanceType,
         osType: plan.osType,
+        region: "ap-south-1",
+        userId: userId,
       });
-      console.log(response.data);
-      setResult(response.data.msg || "Instance created successfully");
+
+      const connectionUrl = response?.data?.instance?.connectionUrl;
+
+      setResult({
+        planId: plan.id,
+        connectionUrl: connectionUrl,
+        instanceId: response?.data?.instance?.instanceId,
+      });
     } catch (err) {
       setError(err?.response?.data?.message || "Error creating instance");
     } finally {
       setLoadingId(null);
     }
   };
+
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-6">
+    <div className="max-w-5xl mx-auto mt-10 p-6">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
         Windows Plans
       </h2>
-      {/* Display result or error */}
+
       {result && (
         <div className="mb-4 bg-green-100 text-green-700 p-3 rounded-md">
-          {result}
+          Instance created successfully!
         </div>
       )}
       {error && (
@@ -73,16 +88,16 @@ export default function WindowsPlans() {
           {error}
         </div>
       )}
-      {/* Cards */}
+
       <form onSubmit={handleSubmit(() => {})}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gradient-to-br from-gray-50 to-blue-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {windowsPlans.map((plan) => (
             <InstanceCard
               key={plan.id}
               plan={plan}
               loading={loadingId === plan.id}
-              onCreate={() => handleCreate(plan)} // Pass form-safe function
-              result={result && loadingId === null ? result : null}
+              onCreate={() => handleCreate(plan)}
+              result={result && result.planId === plan.id ? result : null}
             />
           ))}
         </div>
