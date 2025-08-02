@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import UbuntuPlans from './UbantuPlans';
 import WindowsPlans from './WindowsPlans';
 import Navbar from './Navbar';
+import Profile from './Profile';
+ 
+
 function Home() {
   const [selectedOS, setSelectedOS] = useState(false);
   const osOptions = [
@@ -11,7 +14,9 @@ function Home() {
   ];
   return (
     <> 
+      
         <Navbar />
+      
     <div className=" mt-16  md:mt-0  min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-blue-100 p-6">
       <h1 className="text-4xl font-extrabold text-blue-800 mb-8 drop-shadow-sm text-center">
         Create Your <span className="text-blue-500">VM</span>
