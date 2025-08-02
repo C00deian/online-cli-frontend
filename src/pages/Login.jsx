@@ -6,20 +6,16 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../Service/AxiosInstance';
 const Login = () => {
-
   const navigate=useNavigate();
-  
  const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const onSubmit = async (data) => {
     try {
       const response = await axiosInstance.post('/auth/login', data);
       toast.success( response.data.msg || 'Login successful.');
-      // Optionally save user info in context or localStorage
       navigate("/")
     } catch (error) {
       if (error.response) {
@@ -29,8 +25,6 @@ const Login = () => {
       }
     }
   };
-
-
   return (
     <div className=" p-12 mt-7  flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md">

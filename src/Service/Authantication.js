@@ -1,12 +1,8 @@
 
 import axios from "axios";
-// services/api.js or inside login.js file
-
- // your backend URL
 const BASE_URL = "http://localhost:3000/api/auth"; 
 
 export const useAuth = () => {
-
 const login = async (email, password) => {
   try {
     const response = await axios.post('http://localhost:3000/api/auth/login', {
@@ -17,7 +13,6 @@ const login = async (email, password) => {
       },
       body: JSON.stringify({ email, password }),
     });
-
     const data = await response.json();
     if (!response.ok) throw new Error(data.msg || 'Login failed');
 
@@ -26,9 +21,6 @@ const login = async (email, password) => {
     throw error;
   }
 };
-
-
-
   const signup = async (data) => {
     try {
       const res = await axios.post(`${BASE_URL}/register`, data);
@@ -37,6 +29,5 @@ const login = async (email, password) => {
       console.error("Signup Error:", error);
     }
   };
-
   return { login, signup };
 };

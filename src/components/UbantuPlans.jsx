@@ -61,14 +61,12 @@ export default function UbuntuPlans() {
       setLoadingId(null);
     }
   };
-
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
         Ubuntu Plans
       </h2>
-
-      {/* Success or Error */}
+ 
       {result && (
         <div className="mb-4 bg-green-100 text-green-700 p-3 rounded-md">
           {typeof result === "string" ? result : JSON.stringify(result)}
@@ -79,8 +77,6 @@ export default function UbuntuPlans() {
           {error}
         </div>
       )}
-
-      {/* Form wraps the card grid to allow future form expansion if needed */}
       <form onSubmit={handleSubmit(() => {})}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gradient-to-br from-gray-50 to-blue-100">
           {ubuntuPlans.map((plan) => (
@@ -88,7 +84,7 @@ export default function UbuntuPlans() {
               key={plan.id}
               plan={plan}
               loading={loadingId === plan.id}
-              onCreate={() => handleCreate(plan)} // Trigger with selected plan
+              onCreate={() => handleCreate(plan)} 
               result={
                 result && result.planId === plan.id && loadingId === null
                   ? result

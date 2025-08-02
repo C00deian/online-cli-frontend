@@ -12,8 +12,6 @@ export default function InstanceCard({ plan, onCreate, loading, result }) {
       navigate("/terminal", { state: { instanceId: result.instanceId } });
     }, 5000);
   };
-
-  
   return (
     <div className=" rounded-xl  p-6  transition bg-white shadow-[4px_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[10px_10px_30px_rgba(0,0,0,0.15)] hover:scale-[1.02]">
       <div className="text-lg font-semibold mb-4">{plan.label}</div>

@@ -34,8 +34,8 @@ const TerminalClient = () => {
         background: '#000000',
         foreground: '#00ff00',
       },
-        allowProposedApi: true,        // 👈 required for copy-paste
-  scrollback: 1000,
+      allowProposedApi: true,        // 👈 required for copy-paste
+      scrollback: 1000,
     });
 
     fitAddon.current = new FitAddon();
@@ -60,8 +60,6 @@ const TerminalClient = () => {
 
     term.current.writeln('Connected to EC2 via SSM.');
     prompt();
-
-
     let currentCommand = '';
 
     term.current.onData(data => {
@@ -141,20 +139,19 @@ const TerminalClient = () => {
 
   // handle terminate
   const handleTerminate = async () => {
-  setTerminating(true);
-  try {
-    await axios.post(`http://13.204.81.232:3000/instances/${instanceId}/terminate`);
-    setTerminated(true);
-    term.current.writeln('\r\n⚠️ Instance terminated successfully.');
-    setTimeout(() => navigate('/'), 3000); // Redirect after 3s
-  } catch (err) {
-    term.current.writeln('\r\n❌ Failed to terminate instance.');
-    alert("Error: " + err.message);
-  } finally {
-    setTerminating(false);
-  }
-};
-
+    setTerminating(true);
+    try {
+      await axios.post(`http://13.204.81.232:3000/instances/${instanceId}/terminate`);
+      setTerminated(true);
+      term.current.writeln('\r\n⚠️ Instance terminated successfully.');
+      setTimeout(() => navigate('/'), 3000); // Redirect after 3s
+    } catch (err) {
+      term.current.writeln('\r\n❌ Failed to terminate instance.');
+      alert("Error: " + err.message);
+    } finally {
+      setTerminating(false);
+    }
+  };
   return (
     <>
       <div className="flex items-center justify-between bg-gray-900 text-white px-6 py-4">
@@ -172,8 +169,8 @@ const TerminalClient = () => {
             {terminating
               ? "Terminating..."
               : terminated
-              ? "Terminated ✅"
-              : "Terminate Instance"}
+                ? "Terminated ✅"
+                : "Terminate Instance"}
           </button>
         </div>
       </div>
