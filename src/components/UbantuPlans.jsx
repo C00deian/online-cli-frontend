@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import InstanceCard from "./InstanceCard";
-
 
 const ubuntuPlans = [
   {
@@ -12,7 +12,7 @@ const ubuntuPlans = [
     storage: "50 GB",
     instance_type: "t2.large",
     volume_size: 50,
-    ami_id: "ami-021a584b49225376d", // Ubuntu AMI
+    ami_id: "ami-021a584b49225376d",
   },
   {
     id: 2,
@@ -41,17 +41,20 @@ export default function UbuntuPlans() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
 
+  const { handleSubmit } = useForm(); // React Hook Form initialized
+
   const handleCreate = async (plan) => {
     setLoadingId(plan.id);
     setError("");
     setResult(null);
+
     try {
       const res = await axios.post("http://13.204.81.232:3000/instances/create", {
         ami_id: plan.ami_id,
         instance_type: plan.instance_type,
         volume_size: plan.volume_size,
       });
-      setResult({ ...res.data, planId: plan.id });;
+      setResult({ ...res.data, planId: plan.id });
     } catch (err) {
       setError(err?.response?.data?.message || "Error creating instance");
     } finally {
@@ -61,25 +64,40 @@ export default function UbuntuPlans() {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Ubuntu Plans</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+        Ubuntu Plans
+      </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {ubuntuPlans.map((plan) => (
-          <InstanceCard
-            key={plan.id}
-            plan={plan}
-            loading={loadingId === plan.id}
-            onCreate={handleCreate}
-            result={result && loadingId === null ? result : null}
-          />
-        ))}
-      </div>
-
+      {/* Success or Error */}
+      {result && (
+        <div className="mb-4 bg-green-100 text-green-700 p-3 rounded-md">
+          {typeof result === "string" ? result : JSON.stringify(result)}
+        </div>
+      )}
       {error && (
-        <div className="mt-4 bg-red-100 text-red-700 p-3 rounded-md">
+        <div className="mb-4 bg-red-100 text-red-700 p-3 rounded-md">
           {error}
         </div>
       )}
+
+      {/* Form wraps the card grid to allow future form expansion if needed */}
+      <form onSubmit={handleSubmit(() => {})}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gradient-to-br from-gray-50 to-blue-100">
+          {ubuntuPlans.map((plan) => (
+            <InstanceCard
+              key={plan.id}
+              plan={plan}
+              loading={loadingId === plan.id}
+              onCreate={() => handleCreate(plan)} // Trigger with selected plan
+              result={
+                result && result.planId === plan.id && loadingId === null
+                  ? result
+                  : null
+              }
+            />
+          ))}
+        </div>
+      </form>
     </div>
   );
 }
