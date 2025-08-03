@@ -66,7 +66,7 @@ const Navbar = () => {
                 Log In
               </Link>
               <Link
-                to="/singup"
+                to="/signup"
                 onClick={() => setIsOpen(false)}
                 className="block w-full text-center px-4 py-2 my-2 text-sm font-semibold text-white bg-black rounded-full hover:bg-gray-700 transition"
               >

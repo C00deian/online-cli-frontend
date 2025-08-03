@@ -3,13 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import TerminalClient from "./components/TerminalClient";
 import Login from "./pages/Login";
 import Home from "./components/Home";
-import Signup from "./pages/Singup";
+import Signup from "./pages/Singup"
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/terminal" element={<TerminalClient />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/signup" element={<Signup></Signup>} />
       <Route path="/login" element={<Login />} />
     </Routes>
   );

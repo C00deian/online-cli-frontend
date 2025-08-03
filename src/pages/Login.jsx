@@ -51,7 +51,7 @@ const Login = () => {
         </div>
         <div className="text-sm text-center mt-2 text-gray-700">
           Need an account?{" "}
-          <Link to="/singup" className="text-black font-semibold hover:underline">
+          <Link to="/signup" className="text-black font-semibold hover:underline">
             Sign up
           </Link>
         </div>

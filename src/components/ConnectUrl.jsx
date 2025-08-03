@@ -6,7 +6,6 @@ const ConnectionButton = ({ instance }) => {
       alert('No URL found');
     }
   };
-
   return (
     <button
       onClick={handleOpenConnection}
@@ -16,5 +15,4 @@ const ConnectionButton = ({ instance }) => {
     </button>
   );
 };
-
 export default ConnectionButton;

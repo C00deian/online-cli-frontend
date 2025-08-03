@@ -6,17 +6,12 @@ const CloudMachineHeader = ({ title , subtitle ,btntitile }) => {
         <p className="text-sm text-gray-700">{subtitle}</p>
       </div>
       <div
-        
         className=" border text-black text-sm font-medium px-4 py-2 rounded-md flex items-center gap-1"
       >
         <span className="text-lg">⏺</span> 
         {btntitile}
-        
       </div>
-     
-      
     </div>
   );
 };
-
 export default CloudMachineHeader;

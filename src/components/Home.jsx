@@ -1,42 +1,26 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import UbuntuPlans from './UbantuPlans';
 import WindowsPlans from './WindowsPlans';
 import Navbar from './Navbar';
 import CloudMachineHeader from './CloudMachineHeader';
 import VMCard from './VMCard';
 import TypingHeading from './TypingHeading';
+import useUserVMs from '../hooks/useUserVMs';
+
 function Home() {
   const [selectedOS, setSelectedOS] = useState(null);
-  const [vms, setVMs] = useState([]);
-
+  const { vms, loading } = useUserVMs();
   const osOptions = [
     { name: 'Ubuntu', icon: 'https://img.icons8.com/color/96/ubuntu--v1.png' },
     { name: 'Windows', icon: 'https://img.icons8.com/color/96/windows-10.png' },
     { name: 'Mac', icon: 'https://img.icons8.com/ios-filled/100/mac-os.png' },
   ];
-  const vmData = {
-    id: '1',
-    name: 'Dev Server - Frontend',
-    ip: '192.168.1.101',
-    vcpus: 4,
-    ram: '8 GB',
-    storage: '100 GB',
-    status: ' Stopped',
-  };
-  useEffect(() => {
-    axios
-      .get('http://localhost:3000/api/instance/user') // Adjust this URL to your API
-      .then((res) => setVMs(res.data))
-      .catch((err) => console.error(err));
-  }, []);
   const closeModal = () => setSelectedOS(null);
   return (
-    <>a1
+    <>
       <Navbar />
       <div className="mt-16 min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-100 p-6">
-
-        <TypingHeading text="Create Your Virtual Machine" />
+        <TypingHeading text="Create Your Computer" />
 
         <div className="flex flex-wrap justify-center gap-8 mt-10">
           {osOptions.map((os) => (
@@ -56,25 +40,19 @@ function Home() {
             </div>
           ))}
         </div>
-
-        {/* Pop-up Plans Modal */}
         {selectedOS && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
-            {/* Background Blur */}
             <div
-              className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/30 backdrop-blur-sm cursor-pointer"
               onClick={closeModal}
             ></div>
-
-            {/* Content */}
             <div className="relative bg-white p-6 rounded-xl shadow-2xl max-w-2xl w-full z-10">
               <button
                 onClick={closeModal}
-                className="absolute top-3 right-5 text-black hover:text-red-500 text-2xl font-bold"
+                className="absolute top-3 right-5 text-black hover:text-red-500 text-2xl font-bold cursor-pointer"
               >
                 &times;
               </button>
-
               {selectedOS === 'Ubuntu' && <UbuntuPlans />}
               {selectedOS === 'Windows' && <WindowsPlans />}
               {selectedOS === 'Mac' && (
@@ -86,15 +64,19 @@ function Home() {
           </div>
         )}
         <div className="mt-16">
-          <CloudMachineHeader btntitile="Your Workspace"
-          />
+          <CloudMachineHeader btntitile="Your Workspace" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 px-32">
-          <VMCard vm={vmData} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 px-4 md:px-32">
+          {loading ? (
+            <p className="text-center col-span-full text-blue-600 font-semibold">Loading VMs...</p>
+          ) : vms.length > 0 ? (
+            vms.map((vm) => <VMCard key={vm.id} vm={vm} />)
+          ) : (
+            <p className="text-center col-span-full text-gray-600">No Computer Found</p>
+          )}
         </div>
       </div>
     </>
   );
 }
-
 export default Home;

@@ -1,6 +1,30 @@
 import { FaPlay, FaStop, FaTrash } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
+import { useStopInstance } from "../hooks/useOperation";
+import { toast } from "react-toastify";
 
 const VMCard = ({ vm }) => {
+
+
+  console.log("instance", vm.rawOutput?.instance_id, "region", vm.region);
+  const { stopInstance } = useStopInstance();
+
+
+
+  const handleStop = async () => {
+    try {
+      await stopInstance({
+        instanceId: vm.rawOutput?.instance_id,
+        region: vm.region,
+      });
+
+      toast.success(`Instance ${vm.rawOutput?.instance_id} stopped!`);
+    } catch (error) {
+      toast.error("Error stopping instance:", error.msg);
+      alert("Failed to stop instance");
+    }
+  };
+
   const statusColors = {
     Running: "bg-blue-500",
     Creating: "bg-yellow-500",
@@ -27,7 +51,7 @@ const VMCard = ({ vm }) => {
 
         <div className="flex space-x-2 text-gray-400 text-sm">
           <FaPlay className="hover:text-green-400 cursor-pointer" />
-          <FaStop className="hover:text-yellow-400 cursor-pointer" />
+          <FaStop onClick={handleStop} className="hover:text-yellow-400 cursor-pointer" />
           <FaTrash className="hover:text-red-400 cursor-pointer" />
         </div>
       </div>
