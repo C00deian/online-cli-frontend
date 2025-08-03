@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import InstanceCard from "../components/InstanceCard";
 import axiosInstance from "../services/axiosInstance";
-
 const windowsPlans = [
   {
     id: 1,
@@ -35,7 +34,6 @@ const windowsPlans = [
     ami_id: "ami-0f5ee92e2d63afc18",
   },
 ];
-
 export default function WindowsPlans() {
   const [loadingId, setLoadingId] = useState(null);
   const [result, setResult] = useState(null);
@@ -89,7 +87,7 @@ export default function WindowsPlans() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(() => {})}>
+      <form onSubmit={handleSubmit(() => { })}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {windowsPlans.map((plan) => (
             <InstanceCard

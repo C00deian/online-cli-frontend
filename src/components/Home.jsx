@@ -5,7 +5,7 @@ import WindowsPlans from './WindowsPlans';
 import Navbar from './Navbar';
 import CloudMachineHeader from './CloudMachineHeader';
 import VMCard from './VMCard';
-
+import TypingHeading from './TypingHeading';
 function Home() {
   const [selectedOS, setSelectedOS] = useState(null);
   const [vms, setVMs] = useState([]);
@@ -15,7 +15,6 @@ function Home() {
     { name: 'Windows', icon: 'https://img.icons8.com/color/96/windows-10.png' },
     { name: 'Mac', icon: 'https://img.icons8.com/ios-filled/100/mac-os.png' },
   ];
-
   const vmData = {
     id: '1',
     name: 'Dev Server - Frontend',
@@ -25,37 +24,29 @@ function Home() {
     storage: '100 GB',
     status: ' Stopped',
   };
-
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/vms') // Adjust this URL to your API
+      .get('http://localhost:3000/api/instance/user') // Adjust this URL to your API
       .then((res) => setVMs(res.data))
       .catch((err) => console.error(err));
   }, []);
-
   const closeModal = () => setSelectedOS(null);
-
   return (
-    <>
+    <>a1
       <Navbar />
       <div className="mt-16 min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-100 p-6">
-        <CloudMachineHeader
-          title="Create Cloud Machines"
-          subtitle="Create, manage, and access your development environments."
-          btntitile=" Choose Your OS"
-        />
 
-        {/* OS Selection */}
+        <TypingHeading text="Create Your Virtual Machine" />
+
         <div className="flex flex-wrap justify-center gap-8 mt-10">
           {osOptions.map((os) => (
             <div
               key={os.name}
               onClick={() => setSelectedOS(os.name)}
               className={`w-36 h-44 md:w-40 md:h-48 flex flex-col items-center justify-center rounded-2xl cursor-pointer transition-all duration-300 transform
-                ${
-                  selectedOS === os.name
-                    ? 'bg-white shadow-[8px_8px_30px_rgba(0,0,0,0.2)] scale-105'
-                    : 'bg-white shadow-[4px_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[10px_10px_30px_rgba(0,0,0,0.15)] hover:scale-[1.06]'
+                ${selectedOS === os.name
+                  ? 'bg-white shadow-[8px_8px_30px_rgba(0,0,0,0.2)] scale-105'
+                  : 'bg-white shadow-[4px_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[10px_10px_30px_rgba(0,0,0,0.15)] hover:scale-[1.06]'
                 }`}
             >
               <img src={os.icon} alt={os.name} className="w-16 h-16 mb-4 drop-shadow-md" />
@@ -94,19 +85,11 @@ function Home() {
             </div>
           </div>
         )}
-
-        {/* Created VM Section */}
         <div className="mt-16">
           <CloudMachineHeader btntitile="Your Workspace"
           />
         </div>
-
-        {/* VM Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 px-32">
-          {/* If API working: */}
-          {/* vms.map(vm => <VMCard key={vm.id} vm={vm} />) */}
-
-          {/* Manual Single Card (like you wanted): */}
           <VMCard vm={vmData} />
         </div>
       </div>
