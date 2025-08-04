@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://comprig.com',  // ✅ just the origin
+  baseURL: 'https://comprig.com/api',  // ✅ just the origin
   withCredentials: true,           // ✅ to send cookies
 });
 
