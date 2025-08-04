@@ -5,4 +5,10 @@ const axiosInstance = axios.create({
   withCredentials: true,           // ✅ to send cookies
 });
 
+
+// const axiosInstance = axios.create({
+//   baseURL: 'http://localhost:3400/api',  // ✅ just the origin
+//   withCredentials: true,           // ✅ to send cookies
+// });
+
 export default axiosInstance;

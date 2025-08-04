@@ -7,6 +7,7 @@ import LaunchTerminalButton from "./LaunchTerminal";
 const VMCard = ({ vm }) => {
   const [showModal, setShowModal] = useState(false);
   const { stopInstance, terminateInstance } = useStopInstance();
+  const [isStop, SetisStop] = useState(false);
 
   const handleStop = async () => {
     try {
@@ -18,6 +19,10 @@ const VMCard = ({ vm }) => {
     } catch (error) {
       toast.error("Error stopping instance:", error?.msg || "Unknown error");
     }
+  };
+
+  const handleToggle = () => {
+    setIsStopped(!isStopped);
   };
 
   // inside VMCard.jsx
@@ -98,10 +103,18 @@ const VMCard = ({ vm }) => {
 
           <div className="flex space-x-3 text-gray-500 text-base">
             <FaPlay className="hover:text-green-500 cursor-pointer" />
-            <FaStop
-              onClick={handleStop}
-              className="hover:text-yellow-500 cursor-pointer"
-            />
+
+            {isStopped ? (
+        <FaStop
+          onClick={handleToggle}
+          className="hover:text-yellow-500 cursor-pointer"
+        />
+      ) : (
+        <FaPause
+          onClick={handleToggle}
+          className="hover:text-green-500 cursor-pointer"
+        />
+      )}
             <FaTrash
               onClick={() => setShowModal(true)}
               className="hover:text-red-500 cursor-pointer"
