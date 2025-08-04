@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../services/axiosInstance";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
+
 
 export const useSignupForm = () => {
   const navigate = useNavigate();
@@ -21,7 +21,8 @@ export const useSignupForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axiosInstance.post("auth/register", data);
+      console.log(data);
+      const response = await axiosInstance.post("/auth/register", data);
 
       const user = response.data?.user;
       if (user && user.id && user.name && user.email) {

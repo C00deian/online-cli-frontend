@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import InstanceCard from "./InstanceCard";
+import axiosInstance from "../services/axiosInstance";
 
 const ubuntuPlans = [
   {
@@ -41,7 +41,7 @@ export default function UbuntuPlans() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
 
-  const { handleSubmit } = useForm(); // React Hook Form initialized
+  const { handleSubmit } = useForm();
 
   const handleCreate = async (plan) => {
     setLoadingId(plan.id);
@@ -49,7 +49,7 @@ export default function UbuntuPlans() {
     setResult(null);
 
     try {
-      const res = await axios.post("http://13.204.81.232:3000/instances/create", {
+      const res = await axiosInstance.post("/ec2/create-ubuntu-instance", {
         ami_id: plan.ami_id,
         instance_type: plan.instance_type,
         volume_size: plan.volume_size,
@@ -66,10 +66,10 @@ export default function UbuntuPlans() {
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
         Ubuntu Plans
       </h2>
- 
+
       {result && (
         <div className="mb-4 bg-green-100 text-green-700 p-3 rounded-md">
-          {typeof result === "string" ? result : JSON.stringify(result)}
+          <h3>Instance created success.</h3>
         </div>
       )}
       {error && (
@@ -84,7 +84,7 @@ export default function UbuntuPlans() {
               key={plan.id}
               plan={plan}
               loading={loadingId === plan.id}
-              onCreate={() => handleCreate(plan)} 
+              onCreate={() => handleCreate(plan)}
               result={
                 result && result.planId === plan.id && loadingId === null
                   ? result

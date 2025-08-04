@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import user from "../assets/Profile.webp"
+import user from "../assets/profile.webp"
 import { useAuth } from "../context/AuthContext"; // ⬅️ import useAuth
 
 const Profile = () => {

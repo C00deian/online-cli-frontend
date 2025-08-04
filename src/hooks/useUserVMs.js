@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../services/axiosInstance';
 import { useAuth } from '../context/AuthContext';
 
-
 const useUserVMs = () => {
   const [vms, setVMs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +15,7 @@ const useUserVMs = () => {
     }
 
     axiosInstance
-      .get("instance/user", { params: { userId } }) 
+      .get("/instance/user", { params: { userId } }) 
       .then((res) => {
         setVMs(res.data.instances);  
       })
@@ -26,7 +25,7 @@ const useUserVMs = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [userId]);
 
   return { vms, loading };
 };
