@@ -14,17 +14,13 @@ const useUserVMs = () => {
       return;
     }
 
-    axiosInstance
-      .get("/instance/user", { params: { userId } }) 
-      .then((res) => {
-        setVMs(res.data.instances);  
-      })
+     axiosInstance.get(`/instance/user?userId=${userId}`)
+      .then((res) => setVMs(res.data.instances || [])) // ✅ fallback if API doesn't return array
       .catch((err) => {
-        console.error("❌ Error fetching VMs:", err.response?.data || err.message);
+        console.error("Error fetching VMs:", err);
+        setVMs([]); // ✅ ensure fallback
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   }, [userId]);
 
   return { vms, loading };

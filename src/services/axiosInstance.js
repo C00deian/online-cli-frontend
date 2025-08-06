@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 
 
 // const axiosInstance = axios.create({
-//   baseURL: 'http://localhost:3400/api',  // ✅ just the origin
+//   baseURL: 'http://localhost:3400',  // ✅ just the origin
 //   withCredentials: true,           // ✅ to send cookies
 // });
 

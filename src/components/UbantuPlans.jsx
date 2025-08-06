@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import InstanceCard from "./InstanceCard";
 import axiosInstance from "../services/axiosInstance";
+import { useAuth } from "../context/AuthContext";
 
 const ubuntuPlans = [
   {
@@ -10,8 +11,8 @@ const ubuntuPlans = [
     cpu: 2,
     ram: "8 GB",
     storage: "50 GB",
-    instance_type: "t2.large",
-    volume_size: 50,
+    instance_type: "t2.nano",
+    volume_size: 8,
     ami_id: "ami-021a584b49225376d",
   },
   {
@@ -20,8 +21,8 @@ const ubuntuPlans = [
     cpu: 4,
     ram: "16 GB",
     storage: "100 GB",
-    instance_type: "t2.xlarge",
-    volume_size: 100,
+    instance_type: "t2.micro",
+    volume_size:8,
     ami_id: "ami-021a584b49225376d",
   },
   {
@@ -30,8 +31,8 @@ const ubuntuPlans = [
     cpu: 8,
     ram: "32 GB",
     storage: "200 GB",
-    instance_type: "t3.2xlarge",
-    volume_size: 200,
+    instance_type: "t2.micro",
+    volume_size: 8,
     ami_id: "ami-021a584b49225376d",
   },
 ];
@@ -40,6 +41,8 @@ export default function UbuntuPlans() {
   const [loadingId, setLoadingId] = useState(null);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const { userId} = useAuth()
+  console.log(userId)
 
   const { handleSubmit } = useForm();
 
@@ -53,6 +56,7 @@ export default function UbuntuPlans() {
         ami_id: plan.ami_id,
         instance_type: plan.instance_type,
         volume_size: plan.volume_size,
+        userId:userId
       });
       setResult({ ...res.data, planId: plan.id });
     } catch (err) {

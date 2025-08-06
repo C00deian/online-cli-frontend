@@ -3,41 +3,48 @@ import { FaPlay, FaStop, FaTrash } from "react-icons/fa";
 import { useStopInstance } from "../hooks/useOperation";
 import { toast } from "react-toastify";
 import LaunchTerminalButton from "./LaunchTerminal";
+import { useAuth } from "../context/AuthContext";
+
 
 const VMCard = ({ vm }) => {
   const [showModal, setShowModal] = useState(false);
-  const { stopInstance, terminateInstance } = useStopInstance();
-  const [isStop, SetisStop] = useState(false);
+  const [isStopped, setIsStopped] = useState(vm.status === "Stopped");
+  const [isLoading, setIsLoading] = useState(false);
 
+  const { stopInstance, terminateInstance } = useStopInstance();
+  const { userId } = useAuth();
   const handleStop = async () => {
+    setIsLoading(true);
     try {
       await stopInstance({
         instanceId: vm.rawOutput?.instance_id,
         region: vm.region,
       });
       toast.success(`Instance ${vm.rawOutput?.instance_id} stopped!`);
+      setIsStopped(true);
     } catch (error) {
-      toast.error("Error stopping instance:", error?.msg || "Unknown error");
+      console.error("Stop Error:", error);
+      toast.error(
+        error?.response?.data?.message || "Error stopping instance"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleToggle = () => {
-    setIsStopped(!isStopped);
-  };
-
-  // inside VMCard.jsx
   const handleTerminate = async () => {
     try {
       await terminateInstance({
         instanceId: vm.rawOutput?.instance_id,
         region: vm.region,
+        userId:userId
       });
       toast.success(`Instance ${vm.rawOutput?.instance_id} terminated!`);
       setShowModal(false);
     } catch (error) {
+      console.error("Terminate Error:", error);
       toast.error(
-        "Error terminating instance:",
-        error?.response?.data?.message || "Unknown error"
+        error?.response?.data?.message || "Error terminating instance"
       );
       setShowModal(false);
     }
@@ -52,8 +59,8 @@ const VMCard = ({ vm }) => {
   return (
     <>
       {/* 💻 VM Card UI */}
-      <div className=" text-black p-4 rounded-xl w-full max-w-xs shadow-lg bg-white backdrop-blur-md transition hover:shadow-2xl">
-        {/* Title & IP */}
+      <div className="text-black p-4 rounded-xl w-full max-w-xs shadow-lg bg-white backdrop-blur-md transition hover:shadow-2xl">
+        {/* IP */}
         <div className="mb-1">
           <p className="text-sm text-gray-600">{vm.rawOutput.public_ip}</p>
         </div>
@@ -73,7 +80,7 @@ const VMCard = ({ vm }) => {
             </p>
           </div>
 
-          {/* Actions (Terminal + OS) */}
+          {/* OS + Terminal */}
           <div className="flex flex-col items-end space-y-2">
             <LaunchTerminalButton
               connectionUrl={vm.connectionUrl || vm.rawOutput?.connectionUrl}
@@ -82,9 +89,9 @@ const VMCard = ({ vm }) => {
 
             <span
               className={`text-sm font-semibold px-3 py-1 rounded border 
-          ${vm.os === "ubuntu" ? "text-orange-600 border-orange-400" : ""}
-          ${vm.os === "windows" ? "text-blue-600 border-blue-400" : ""}
-          bg-gray-100`}
+                ${vm.os === "ubuntu" ? "text-orange-600 border-orange-400" : ""}
+                ${vm.os === "windows" ? "text-blue-600 border-blue-400" : ""}
+                bg-gray-100`}
             >
               {vm.os?.charAt(0).toUpperCase() + vm.os?.slice(1)}
             </span>
@@ -102,19 +109,24 @@ const VMCard = ({ vm }) => {
           </span>
 
           <div className="flex space-x-3 text-gray-500 text-base">
-            <FaPlay className="hover:text-green-500 cursor-pointer" />
-
+            {/* Stop or Play button */}
             {isStopped ? (
-        <FaStop
-          onClick={handleToggle}
-          className="hover:text-yellow-500 cursor-pointer"
-        />
-      ) : (
-        <FaPause
-          onClick={handleToggle}
-          className="hover:text-green-500 cursor-pointer"
-        />
-      )}
+              <FaStop
+                className={`cursor-pointer ${
+                  isLoading ? "opacity-50 pointer-events-none" : "hover:text-yellow-500"
+                }`}
+                onClick={() => toast.info("Instance already stopped")}
+              />
+            ) : (
+              <FaPlay
+                className={`cursor-pointer ${
+                  isLoading ? "opacity-50 pointer-events-none" : "hover:text-green-500"
+                }`}
+                onClick={handleStop}
+              />
+            )}
+
+            {/* Terminate */}
             <FaTrash
               onClick={() => setShowModal(true)}
               className="hover:text-red-500 cursor-pointer"
@@ -123,7 +135,7 @@ const VMCard = ({ vm }) => {
         </div>
       </div>
 
-      {/* 🧾 Tailwind Confirmation Modal */}
+      {/* 🧾 Confirm Termination Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm">
           <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl p-6 w-full max-w-sm">

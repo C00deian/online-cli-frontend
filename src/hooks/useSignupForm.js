@@ -22,7 +22,7 @@ export const useSignupForm = () => {
   const onSubmit = async (data) => {
     try {
       console.log(data);
-      const response = await axiosInstance.post("/auth/register", data);
+      const response = await axiosInstance.post("//auth/register", data);
 
       const user = response.data?.user;
       if (user && user.id && user.name && user.email) {

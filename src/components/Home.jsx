@@ -9,7 +9,7 @@ import useUserVMs from '../hooks/useUserVMs';
 
 function Home() {
   const [selectedOS, setSelectedOS] = useState(null);
-  const { vms, loading } = useUserVMs();
+  const { vms, loading } = useUserVMs([]);
   const osOptions = [
     { name: 'Ubuntu', icon: 'https://img.icons8.com/color/96/ubuntu--v1.png' },
     { name: 'Windows', icon: 'https://img.icons8.com/color/96/windows-10.png' },
