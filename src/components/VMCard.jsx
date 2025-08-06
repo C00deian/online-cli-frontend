@@ -88,7 +88,7 @@ const VMCard = ({ vm }) => {
             />
 
             <span
-              className={`text-sm font-semibold px-3 py-1 rounded border 
+              className={`text-sm font-semibold px-3 py-1 rounded border
                 ${vm.os === "ubuntu" ? "text-orange-600 border-orange-400" : ""}
                 ${vm.os === "windows" ? "text-blue-600 border-blue-400" : ""}
                 bg-gray-100`}
@@ -105,7 +105,7 @@ const VMCard = ({ vm }) => {
               statusColors[vm.status] || "bg-gray-600"
             } text-white`}
           >
-            {vm.status}
+           {vm.status}
           </span>
 
           <div className="flex space-x-3 text-gray-500 text-base">

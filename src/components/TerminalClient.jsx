@@ -3,7 +3,7 @@ import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 const TerminalClient = () => {
   const terminalRef = useRef(null);
@@ -15,8 +15,7 @@ const TerminalClient = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [terminating, setTerminating] = useState(false);
-  const [terminated, setTerminated] = useState(false);
+
 
   const instanceId = location.state?.instanceId;
 
@@ -137,21 +136,7 @@ const TerminalClient = () => {
   }, [instanceId, navigate]);
 
 
-  // handle terminate
-  const handleTerminate = async () => {
-    setTerminating(true);
-    try {
-      await axios.post(`http://13.204.81.232:3000/instances/${instanceId}/terminate`);
-      setTerminated(true);
-      term.current.writeln('\r\n⚠️ Instance terminated successfully.');
-      setTimeout(() => navigate('/'), 3000); // Redirect after 3s
-    } catch (err) {
-      term.current.writeln('\r\n❌ Failed to terminate instance.');
-      alert("Error: " + err.message);
-    } finally {
-      setTerminating(false);
-    }
-  };
+
   return (
     <>
       <div className="flex items-center justify-between bg-gray-900 text-white px-6 py-4">
@@ -161,18 +146,13 @@ const TerminalClient = () => {
           </h5>
         </div>
         <div>
-          <button
-            onClick={handleTerminate}
+          <Link
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition disabled:opacity-50"
-            disabled={terminating || terminated}
+        to={'/'}
           >
-            {terminating
-              ? "Terminating..."
-              : terminated
-                ? "Terminated ✅"
-                : "Terminate Instance"}
-          </button>
-        </div>
+           Back to Home
+          </Link>
+        </div> 
       </div>
 
       <div className="w-screen h-[calc(100vh-64px)] bg-black overflow-hidden">
