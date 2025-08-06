@@ -21,7 +21,7 @@ const windowsPlans = [
     storage: "260 GB",
     instanceType: "t3.micro",
     osType: "windows",
-    ami_id: "ami-07f24338b7913c534",
+    ami_id: "ami-0f5ee92e2d63afc18",
   },
   {
     id: 3,
